@@ -150,7 +150,7 @@ public class TimestenDatabase extends AbstractJdbcDatabase {
 
     @Override
     public boolean jdbcCallsCatalogsSchemas() {
-        return true;
+        return false;
     }
 
     @Override
@@ -163,10 +163,25 @@ public class TimestenDatabase extends AbstractJdbcDatabase {
         return correctObjectName(schema.getCatalogName() == null ? schema.getSchemaName() : schema.getCatalogName(),
                 Schema.class);
     }
+		
+    /* (non-Javadoc)
+	 * @see liquibase.database.AbstractJdbcDatabase#getLiquibaseCatalogName()
+	 */
+	@Override
+	public String getLiquibaseCatalogName() {
+		String catalog = super.getLiquibaseCatalogName();
+		if(catalog ==null){
+			return getDefaultCatalogName();
+		}else{
+			return catalog.toUpperCase();
+		}
+	}
 
-    @Override
-    public String getDefaultCatalogName() {// NOPMD
-        return super.getDefaultCatalogName() == null ? null : super.getDefaultCatalogName().toUpperCase();
-    }
-
+	/* (non-Javadoc)
+	 * @see liquibase.database.AbstractJdbcDatabase#getConnectionCatalogName()
+	 */
+	@Override
+	protected String getConnectionCatalogName() throws DatabaseException {
+		return getConnection().getConnectionUserName();
+	}
 }
