@@ -39,4 +39,12 @@ public class TimestenDoubleType extends DoubleType {
         
         return super.toDatabaseDataType(database);
     }
+    
+	/* (non-Javadoc)
+	 * @see liquibase.datatype.LiquibaseDataType#supports(liquibase.database.Database)
+	 */
+	@Override
+	public boolean supports(Database database) {
+		return database instanceof TimestenDatabase;
+	}
 }
