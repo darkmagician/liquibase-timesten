@@ -165,11 +165,12 @@ public class TimestenSequenceSnapshotGenerator extends JdbcSnapshotGenerator {
 	 */
 	@Override
 	public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
-		if (Sequence.class.isAssignableFrom(objectType) && database instanceof TimestenDatabase) {
-			return PRIORITY_DATABASE;
+		if ( database instanceof TimestenDatabase ) {
+			return super.getPriority(objectType, database);
 		}
 		return PRIORITY_NONE;
 	}
+
 
 	/*
 	 * (non-Javadoc)
